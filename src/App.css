@@ -1,0 +1,250 @@
+#root {
+  width: 100%; /* Ensures 100% width, allowing Header/Footer to expand */
+  min-height: 100vh; /* Matches the body height */
+  
+  /* Key Flexbox properties for vertical stacking */
+  display: flex;
+  flex-direction: column; 
+  
+  /* Remove any `max-width` or `margin: 0 auto;` that would center the whole app */
+}
+
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+
+.card {
+  padding: 2em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+
+@keyframes slideFade {
+  0% {
+    opacity: 0;
+    transform: translateY(-4px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-slideFade {
+  animation: slideFade 0.25s ease-out;
+}
+
+
+
+
+/* Header CSS Starts Here  */
+
+/* --- 1. Main Header Container --- */
+/* If using custom CSS, ensure these properties are present and take precedence */
+.app-header {
+  width: 100%;
+  display: flex;
+  /* This is the key property for spacing the three main groups */
+  justify-content: space-between; 
+  align-items: center; 
+  /* ... other styling ... */
+}
+
+/* --- 2. Brand/Logo Section --- */
+.header-brand {
+  /* Flex item to control spacing */
+  flex-basis: 20%; 
+}
+
+.app-name {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #3f51b5; /* A primary color */
+  text-decoration: none;
+}
+
+/* --- 3. Navigation Links --- */
+.header-nav {
+  display: flex;
+  gap: 25px; /* Space between links */
+}
+
+.nav-link {
+  color: #333;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 5px 10px;
+  transition: color 0.2s, border-bottom 0.2s;
+}
+
+.nav-link:hover {
+  color: #5c6bc0; /* Darker shade on hover */
+}
+
+/* Active link style */
+.nav-link.active {
+  color: #3f51b5; /* Primary color for the current page */
+  border-bottom: 2px solid #3f51b5;
+}
+
+/* --- 4. User Actions --- */
+.header-user-actions {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  flex-basis: 20%; 
+  justify-content: flex-end; /* Push items to the right */
+}
+
+.user-greeting {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.logout-btn {
+  /* Simple button styling */
+  padding: 8px 15px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  background-color: transparent;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.logout-btn:hover {
+  background-color: #f5f5f5;
+}
+
+
+/* Header CSS ENDS HERE */
+
+
+/* FOOTER CSS STARTS HERE */
+
+/* --- 1. Main Footer Container --- */
+.app-footer {
+  background-color: #34495e; /* Dark, professional background */
+  color: #ecf0f1; /* Light text color */
+  padding: 40px 30px;
+  margin-top: 50px; /* Provides separation from the main content */
+  font-size: 0.9rem;
+}
+
+.footer-content-wrapper {
+  display: flex;
+  justify-content: space-around;
+  max-width: 1200px; /* Constrain width for large screens */
+  margin: 0 auto;
+  gap: 30px; /* Space between sections */
+  flex-wrap: wrap; /* Important for responsiveness */
+}
+
+/* --- 2. Sections and Headings --- */
+.footer-section {
+  min-width: 150px;
+  margin-bottom: 20px;
+}
+
+.footer-heading {
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  color: #95a5a6; /* Secondary light color */
+}
+
+/* --- 3. Links and Lists --- */
+.footer-link-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-link {
+  color: #ecf0f1;
+  text-decoration: none;
+  line-height: 1.8;
+  transition: color 0.2s;
+}
+
+.footer-link:hover {
+  color: #3498db; /* Highlight color on hover */
+}
+
+/* --- 4. Brand and Copyright --- */
+.footer-logo {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ecf0f1;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 10px;
+}
+
+.footer-tagline {
+  margin-bottom: 20px;
+  color: #bdc3c7;
+}
+
+.footer-copyright {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+}
+
+/* --- 5. Social Icons --- */
+.social-icons {
+  display: flex;
+  gap: 15px;
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.social-icon {
+  color: #ecf0f1;
+  transition: color 0.2s;
+}
+
+.social-icon:hover {
+  color: #3498db;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .footer-content-wrapper {
+    justify-content: flex-start; /* Stack items more cleanly */
+  }
+  .footer-section {
+    min-width: 45%; /* Two columns on tablets */
+  }
+  .footer-brand {
+    min-width: 100%; /* Brand takes full width */
+  }
+}
+
+/* FOOTER CSS ENDS HERE */
