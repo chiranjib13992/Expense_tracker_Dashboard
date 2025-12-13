@@ -14,7 +14,24 @@ const AddExpense = async (data) => {
 const allExpenses = async () => {
     try {
         const res = await apiService.api.get(`${baseUrl}/expense/all-expenses`);
-        console.log(res);
+        return res.data;
+    } catch (err) {
+        console.log("err", err)
+    }
+}
+
+const categoryWiseSpending = async () => {
+    try {
+        const res = await apiService.api.get(`${baseUrl}/expense/categoriwise-expenses`);
+        return res.data;
+    } catch (err) {
+        console.log("err", err)
+    }
+}
+
+const addIncome = async (data) => {
+    try {
+        const res = await apiService.api.post(`${baseUrl}/expense/create-income`, data);
         return res.data;
     } catch (err) {
         console.log("err", err)
@@ -24,7 +41,9 @@ const allExpenses = async () => {
 
 const ExpenseService = {
     AddExpense,
-    allExpenses
+    allExpenses,
+    categoryWiseSpending,
+    addIncome
 }
 
 export default ExpenseService;

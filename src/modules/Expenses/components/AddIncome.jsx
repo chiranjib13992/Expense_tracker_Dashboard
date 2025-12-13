@@ -1,25 +1,26 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ExpenseService from "../services/expenseService";
-import {
-  Calendar,
-  Tag,
-  CreditCard,
-  FileText,
+import { 
+  DollarSign, 
+  Calendar, 
+  Tag, 
+  Briefcase, 
+  FileText, 
   AlignLeft,
   Check,
   Sparkles,
-  TrendingDown
+  TrendingUp
 } from "lucide-react";
 
-function AddExpense() {
+function AddIncome() {
   const [form, setForm] = useState({
-    item: "",
+    source: "",
     amount: "",
     date: "",
-    purpose: "",
-    payment_method: "",
+    descriptions: "",
     category: "",
+    payment_method: "",
     note: "",
   });
 
@@ -32,21 +33,21 @@ function AddExpense() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Expense Data:", form);
-
-    ExpenseService.AddExpense(form)
+    console.log("Income Data:", form);
+    
+    ExpenseService.addIncome(form)
       .then(res => {
         console.log(res);
         setSubmitted(true);
         setTimeout(() => {
           setSubmitted(false);
           setForm({
-            item: "",
+            source: "",
             amount: "",
             date: "",
-            purpose: "",
-            payment_method: "",
+            descriptions: "",
             category: "",
+            payment_method: "",
             note: "",
           });
         }, 2000);
@@ -55,23 +56,23 @@ function AddExpense() {
   };
 
   const categoryIcons = {
-    food: "🍔",
-    travel: "✈️",
-    shopping: "🛍️",
-    bills: "📄",
-    health: "⚕️",
-    others: "📦"
+    salary: "💼",
+    freelance: "💻",
+    investment: "📈",
+    business: "🏢",
+    gift: "🎁",
+    others: "💰"
   };
 
   const paymentIcons = {
     cash: "💵",
+    bank_transfer: "🏦",
     upi: "📱",
-    card: "💳",
-    netbanking: "🏦"
+    check: "📝"
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-slate-100 py-12 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-gradient-to-br from-emerald-50 via-green-50 to-teal-50 py-12 px-4 sm:px-6 lg:px-8">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
@@ -84,17 +85,17 @@ function AddExpense() {
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, type: "spring", stiffness: 200 }}
-            className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-red-600 to-red-700 rounded-2xl shadow-lg mb-4"
+            className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-br from-green-600 to-emerald-700 rounded-2xl shadow-lg mb-4"
           >
-            <TrendingDown className="w-8 h-8 text-white" />
+            <TrendingUp className="w-8 h-8 text-white" />
           </motion.div>
           <motion.h1
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.3 }}
-            className="text-4xl font-bold bg-gradient-to-r from-slate-900 to-slate-700 bg-clip-text text-transparent mb-2"
+            className="text-4xl font-bold bg-gradient-to-r from-green-900 to-emerald-700 bg-clip-text text-transparent mb-2"
           >
-            Add New Expense
+            Add New Income
           </motion.h1>
           <motion.p
             initial={{ opacity: 0 }}
@@ -102,8 +103,8 @@ function AddExpense() {
             transition={{ delay: 0.4 }}
             className="text-slate-600 flex items-center justify-center gap-2"
           >
-            <Sparkles className="w-4 h-4 text-blue-600" />
-            Track your spending with style
+            <Sparkles className="w-4 h-4 text-green-600" />
+            Track your earnings with style
           </motion.p>
         </div>
 
@@ -115,32 +116,33 @@ function AddExpense() {
           className="bg-white/70 backdrop-blur-xl shadow-2xl border border-white/50 rounded-3xl p-8 md:p-10"
         >
           <form onSubmit={handleSubmit} className="space-y-6">
-
-            {/* Row 1: Item, Amount, Date */}
+            
+            {/* Row 1: Source, Amount, Date */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-              {/* Item */}
+              
+              {/* Source */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
                 transition={{ type: "spring", stiffness: 300 }}
               >
                 <label className="block text-sm font-semibold text-slate-700 mb-2">
-                  Item Name
+                  Income Source
                 </label>
                 <div className="relative">
-                  <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                  <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                   <input
                     type="text"
-                    name="item"
-                    value={form.item}
+                    name="source"
+                    value={form.source}
                     onChange={handleChange}
-                    onFocus={() => setFocusedField('item')}
+                    onFocus={() => setFocusedField('source')}
                     onBlur={() => setFocusedField(null)}
-                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 ${focusedField === 'item'
-                        ? 'border-blue-600 shadow-lg'
+                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 ${
+                      focusedField === 'source' 
+                        ? 'border-green-600 shadow-lg' 
                         : 'border-slate-200 hover:border-slate-300'
-                      }`}
-                    placeholder="e.g., Lunch"
+                    }`}
+                    placeholder="e.g., Salary, Freelance"
                     required
                   />
                 </div>
@@ -155,10 +157,9 @@ function AddExpense() {
                   Amount
                 </label>
                 <div className="relative">
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-green-600 text-lg font-semibold">
+<span className="absolute left-3 top-1/2 -translate-y-1/2 text-green-600 text-lg font-semibold">
                     ₹
                   </span>
-
                   <input
                     type="number"
                     name="amount"
@@ -166,10 +167,11 @@ function AddExpense() {
                     onChange={handleChange}
                     onFocus={() => setFocusedField('amount')}
                     onBlur={() => setFocusedField(null)}
-                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 ${focusedField === 'amount'
-                        ? 'border-blue-600 shadow-lg'
+                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 ${
+                      focusedField === 'amount' 
+                        ? 'border-green-600 shadow-lg' 
                         : 'border-slate-200 hover:border-slate-300'
-                      }`}
+                    }`}
                     placeholder="₹ 0.00"
                     required
                   />
@@ -193,10 +195,11 @@ function AddExpense() {
                     onChange={handleChange}
                     onFocus={() => setFocusedField('date')}
                     onBlur={() => setFocusedField(null)}
-                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 ${focusedField === 'date'
-                        ? 'border-blue-600 shadow-lg'
+                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 ${
+                      focusedField === 'date' 
+                        ? 'border-green-600 shadow-lg' 
                         : 'border-slate-200 hover:border-slate-300'
-                      }`}
+                    }`}
                     required
                   />
                 </div>
@@ -204,67 +207,37 @@ function AddExpense() {
 
             </div>
 
-            {/* Row 2: Purpose */}
+            {/* Row 2: Description */}
             <motion.div
               whileHover={{ scale: 1.01 }}
               transition={{ type: "spring", stiffness: 300 }}
             >
               <label className="block text-sm font-semibold text-slate-700 mb-2">
-                Purpose
+                Description
               </label>
               <div className="relative">
-                <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
+                <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <input
                   type="text"
-                  name="purpose"
-                  value={form.purpose}
+                  name="description"
+                  value={form.descriptions}
                   onChange={handleChange}
-                  onFocus={() => setFocusedField('purpose')}
+                  onFocus={() => setFocusedField('description')}
                   onBlur={() => setFocusedField(null)}
-                  className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 ${focusedField === 'purpose'
-                      ? 'border-blue-600 shadow-lg'
+                  className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 ${
+                    focusedField === 'description' 
+                      ? 'border-green-600 shadow-lg' 
                       : 'border-slate-200 hover:border-slate-300'
-                    }`}
-                  placeholder="What was this expense for?"
+                  }`}
+                  placeholder="Brief description of income"
                   required
                 />
               </div>
             </motion.div>
 
-            {/* Row 3: Payment Method & Category */}
+            {/* Row 3: Category & Payment Method */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-
-              {/* Payment Method */}
-              <motion.div
-                whileHover={{ scale: 1.02 }}
-                transition={{ type: "spring", stiffness: 300 }}
-              >
-                <label className="block text-sm font-semibold text-slate-700 mb-2">
-                  Payment Method
-                </label>
-                <div className="relative">
-                  <CreditCard className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
-                  <select
-                    name="payment_method"
-                    value={form.payment_method}
-                    onChange={handleChange}
-                    onFocus={() => setFocusedField('payment_method')}
-                    onBlur={() => setFocusedField(null)}
-                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 appearance-none cursor-pointer ${focusedField === 'payment_method'
-                        ? 'border-blue-600 shadow-lg'
-                        : 'border-slate-200 hover:border-slate-300'
-                      }`}
-                    required
-                  >
-                    <option value="">Select Method</option>
-                    <option value="cash">{paymentIcons.cash} Cash</option>
-                    <option value="upi">{paymentIcons.upi} UPI</option>
-                    <option value="card">{paymentIcons.card} Card</option>
-                    <option value="netbanking">{paymentIcons.netbanking} Net Banking</option>
-                  </select>
-                </div>
-              </motion.div>
-
+              
               {/* Category */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
@@ -281,19 +254,52 @@ function AddExpense() {
                     onChange={handleChange}
                     onFocus={() => setFocusedField('category')}
                     onBlur={() => setFocusedField(null)}
-                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 appearance-none cursor-pointer ${focusedField === 'category'
-                        ? 'border-blue-600 shadow-lg'
+                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 appearance-none cursor-pointer ${
+                      focusedField === 'category' 
+                        ? 'border-green-600 shadow-lg' 
                         : 'border-slate-200 hover:border-slate-300'
-                      }`}
+                    }`}
                     required
                   >
                     <option value="">Select Category</option>
-                    <option value="food">{categoryIcons.food} Food</option>
-                    <option value="travel">{categoryIcons.travel} Travel</option>
-                    <option value="shopping">{categoryIcons.shopping} Shopping</option>
-                    <option value="bills">{categoryIcons.bills} Bills</option>
-                    <option value="health">{categoryIcons.health} Health</option>
+                    <option value="salary">{categoryIcons.salary} Salary</option>
+                    <option value="freelance">{categoryIcons.freelance} Freelance</option>
+                    <option value="investment">{categoryIcons.investment} Investment</option>
+                    <option value="business">{categoryIcons.business} Business</option>
+                    <option value="gift">{categoryIcons.gift} Gift</option>
                     <option value="others">{categoryIcons.others} Others</option>
+                  </select>
+                </div>
+              </motion.div>
+
+              {/* Payment Method */}
+              <motion.div
+                whileHover={{ scale: 1.02 }}
+                transition={{ type: "spring", stiffness: 300 }}
+              >
+                <label className="block text-sm font-semibold text-slate-700 mb-2">
+                  Payment Method
+                </label>
+                <div className="relative">
+                  <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400 pointer-events-none" />
+                  <select
+                    name="payment_method"
+                    value={form.payment_method}
+                    onChange={handleChange}
+                    onFocus={() => setFocusedField('payment_method')}
+                    onBlur={() => setFocusedField(null)}
+                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 appearance-none cursor-pointer ${
+                      focusedField === 'payment_method' 
+                        ? 'border-green-600 shadow-lg' 
+                        : 'border-slate-200 hover:border-slate-300'
+                    }`}
+                    required
+                  >
+                    <option value="">Select Method</option>
+                    <option value="cash">{paymentIcons.cash} Cash</option>
+                    <option value="bank_transfer">{paymentIcons.bank_transfer} Bank Transfer</option>
+                    <option value="upi">{paymentIcons.upi} UPI</option>
+                    <option value="check">{paymentIcons.check} Check</option>
                   </select>
                 </div>
               </motion.div>
@@ -316,10 +322,11 @@ function AddExpense() {
                   onChange={handleChange}
                   onFocus={() => setFocusedField('note')}
                   onBlur={() => setFocusedField(null)}
-                  className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 resize-none ${focusedField === 'note'
-                      ? 'border-blue-600 shadow-lg'
+                  className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 resize-none ${
+                    focusedField === 'note' 
+                      ? 'border-green-600 shadow-lg' 
                       : 'border-slate-200 hover:border-slate-300'
-                    }`}
+                  }`}
                   rows="4"
                   placeholder="Any additional details..."
                 ></textarea>
@@ -332,7 +339,7 @@ function AddExpense() {
               whileTap={{ scale: 0.98 }}
               type="submit"
               disabled={submitted}
-              className="w-full relative overflow-hidden bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full relative overflow-hidden bg-gradient-to-r from-green-600 to-emerald-700 hover:from-green-700 hover:to-emerald-800 text-white font-bold py-4 rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               <AnimatePresence mode="wait">
                 {submitted ? (
@@ -344,7 +351,7 @@ function AddExpense() {
                     className="flex items-center justify-center gap-2"
                   >
                     <Check className="w-5 h-5" />
-                    Expense Saved!
+                    Income Saved!
                   </motion.span>
                 ) : (
                   <motion.span
@@ -355,19 +362,19 @@ function AddExpense() {
                     className="flex items-center justify-center gap-2"
                   >
                     <Sparkles className="w-5 h-5" />
-                    Save Expense
+                    Save Income
                   </motion.span>
                 )}
               </AnimatePresence>
-
+              
               {/* Animated background effect */}
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0"
                 initial={{ x: '-100%' }}
                 animate={{ x: '100%' }}
-                transition={{
-                  repeat: Infinity,
-                  duration: 2,
+                transition={{ 
+                  repeat: Infinity, 
+                  duration: 2, 
                   ease: "linear",
                   repeatDelay: 1
                 }}
@@ -391,7 +398,7 @@ function AddExpense() {
               </div>
               <div>
                 <p className="font-bold">Success!</p>
-                <p className="text-sm">Expense added successfully</p>
+                <p className="text-sm">Income added successfully</p>
               </div>
             </motion.div>
           )}
@@ -402,4 +409,4 @@ function AddExpense() {
   );
 }
 
-export default AddExpense;
+export default AddIncome;
