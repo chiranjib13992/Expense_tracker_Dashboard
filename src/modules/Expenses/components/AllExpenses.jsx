@@ -59,8 +59,9 @@ export default function AllExpenses() {
   };
 
   const handleEdit = (data) => {
-  console.log("Edit clicked:", data);
-   navigate(`/editExpenses/${data.id}`);
+  data.type === "income"
+  ? navigate(`/editIncome/${data.id}`)
+  : navigate(`/editExpenses/${data.id}`);
   // open modal or navigate to edit page
 };
 

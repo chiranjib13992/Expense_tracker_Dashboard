@@ -22,7 +22,7 @@ function AddExpense() {
     purpose: "",
     payment_method: "",
     category: "",
-    note: "",
+    note: ""
   });
 
   const [focusedField, setFocusedField] = useState(null);

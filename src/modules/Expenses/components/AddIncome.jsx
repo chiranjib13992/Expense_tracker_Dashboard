@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ExpenseService from "../services/expenseService";
 import { 
@@ -12,8 +12,11 @@ import {
   Sparkles,
   TrendingUp
 } from "lucide-react";
+import { useParams } from "react-router-dom";
+
 
 function AddIncome() {
+    const { id } = useParams();
   const [form, setForm] = useState({
     source: "",
     amount: "",
@@ -26,11 +29,33 @@ function AddIncome() {
 
   const [focusedField, setFocusedField] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+  let [buttonName, setButton] = useState("Save");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
 
+  const fetchExpenseById = async (expenseId) => {
+    try {
+      ExpenseService.getTransactionById(expenseId, "income")
+        .then((res) => {
+         setForm(res.transaction);
+         setButton("Update")
+        })
+        .catch((err) => console.log(err));
+
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchExpenseById(id);
+    }
+  }, [id]);
+  
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Income Data:", form);
@@ -362,7 +387,7 @@ function AddIncome() {
                     className="flex items-center justify-center gap-2"
                   >
                     <Sparkles className="w-5 h-5" />
-                    Save Income
+                    {buttonName} Income
                   </motion.span>
                 )}
               </AnimatePresence>
