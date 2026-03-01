@@ -11,6 +11,7 @@ export default function Dashboard() {
   const [recentTransactions, setExpenses] = useState([]);
   const [categoryExpenses, setCategoryExpenses] = useState([]);
   const [dathbaordData, setDashboardData] = useState({});
+  const [totalSpending, setTotalSpending] = useState(0);
 
   // Sample data
   const stats = {
@@ -36,8 +37,9 @@ export default function Dashboard() {
       .catch((err) => console.log(err));
     ExpenseService.categoryWiseSpending()
       .then((res) => {
-        console.log(res, 'res')
+        const totalSpeding = res.totalExpense;
         setCategoryExpenses(res.categoryExpenses);
+        setTotalSpending(totalSpeding)
       }).catch((err) => console.log(err));
       ExpenseService.allDashboardData()
       .then((res) => {
@@ -221,7 +223,7 @@ export default function Dashboard() {
             <div className="mt-6 pt-6 border-t border-slate-200">
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-slate-700">Total Expenses</span>
-                <span className="font-bold text-slate-800">₹2,650</span>
+                <span className="font-bold text-slate-800">{totalSpending}</span>
               </div>
             </div>
           </div>
