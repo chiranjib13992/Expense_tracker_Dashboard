@@ -21,14 +21,6 @@ export default function Dashboard() {
     savings: 3249.25
   };
 
-  // const recentTransactions = [
-  //   { id: 1, name: 'Grocery Shopping', category: 'Food', amount: -125.50, date: '2024-12-12', type: 'expense' },
-  //   { id: 2, name: 'Salary Deposit', category: 'Income', amount: 5000.00, date: '2024-12-10', type: 'income' },
-  //   { id: 3, name: 'Electric Bill', category: 'Utilities', amount: -89.99, date: '2024-12-09', type: 'expense' },
-  //   { id: 4, name: 'Netflix Subscription', category: 'Entertainment', amount: -15.99, date: '2024-12-08', type: 'expense' },
-  //   { id: 5, name: 'Freelance Project', category: 'Income', amount: 1200.00, date: '2024-12-07', type: 'income' },
-  // ];
-
   useEffect(() => {
     ExpenseService.allExpenses()
       .then((res) => {
@@ -47,14 +39,6 @@ export default function Dashboard() {
          setDashboardData(res.dahboardData[0]);
       })
   }, [])
-
-  // const categoryExpenses = [
-  //   { category: 'Food', amount: 850, color: 'bg-blue-500', percentage: 32 },
-  //   { category: 'Transport', amount: 420, color: 'bg-purple-500', percentage: 16 },
-  //   { category: 'Utilities', amount: 380, color: 'bg-green-500', percentage: 14 },
-  //   { category: 'Entertainment', amount: 290, color: 'bg-orange-500', percentage: 11 },
-  //   { category: 'Others', amount: 710, color: 'bg-pink-500', percentage: 27 },
-  // ];
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
