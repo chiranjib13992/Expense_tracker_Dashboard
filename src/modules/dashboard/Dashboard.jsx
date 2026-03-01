@@ -10,6 +10,7 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const [recentTransactions, setExpenses] = useState([]);
   const [categoryExpenses, setCategoryExpenses] = useState([]);
+  const [dathbaordData, setDashboardData] = useState({});
 
   // Sample data
   const stats = {
@@ -38,6 +39,11 @@ export default function Dashboard() {
         console.log(res, 'res')
         setCategoryExpenses(res.categoryExpenses);
       }).catch((err) => console.log(err));
+      ExpenseService.allDashboardData()
+      .then((res) => {
+         console.log(res.dahboardData[0], 'dashboard data');
+         setDashboardData(res.dahboardData[0]);
+      })
   }, [])
 
   // const categoryExpenses = [
@@ -69,7 +75,7 @@ export default function Dashboard() {
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Time Filter */}
-        <div className="flex gap-2 mb-6">
+        {/* <div className="flex gap-2 mb-6">
           {['week', 'month', 'year'].map((period) => (
             <button
               key={period}
@@ -83,7 +89,7 @@ export default function Dashboard() {
               {period}
             </button>
           ))}
-        </div>
+        </div> */}
 
         {/* Stats Cards */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
@@ -94,7 +100,7 @@ export default function Dashboard() {
               </div>
               <span className="text-sm text-slate-500">Total Balance</span>
             </div>
-            <h3 className="text-3xl font-bold text-slate-800">${stats.balance.toLocaleString()}</h3>
+            <h3 className="text-3xl font-bold text-slate-800">₹{Number(dathbaordData.totalBalance).toLocaleString("en-IN")}</h3>
             <p className="text-sm text-green-600 mt-2 flex items-center gap-1">
               <ArrowUpRight className="w-4 h-4" />
               +12.5% from last month
@@ -108,7 +114,7 @@ export default function Dashboard() {
               </div>
               <span className="text-sm text-slate-500">Income</span>
             </div>
-            <h3 className="text-3xl font-bold text-slate-800">${stats.income.toLocaleString()}</h3>
+            <h3 className="text-3xl font-bold text-slate-800">₹{Number(dathbaordData.totalIncome).toLocaleString("en-IN")}</h3>
             <p className="text-sm text-green-600 mt-2 flex items-center gap-1">
               <ArrowUpRight className="w-4 h-4" />
               +8.2% from last month
@@ -122,7 +128,7 @@ export default function Dashboard() {
               </div>
               <span className="text-sm text-slate-500">Expenses</span>
             </div>
-            <h3 className="text-3xl font-bold text-slate-800">${stats.expenses.toLocaleString()}</h3>
+            <h3 className="text-3xl font-bold text-slate-800">₹{Number(dathbaordData.totalExpense).toLocaleString("en-IN")}</h3>
             <p className="text-sm text-red-600 mt-2 flex items-center gap-1">
               <ArrowDownRight className="w-4 h-4" />
               +3.1% from last month
@@ -136,7 +142,7 @@ export default function Dashboard() {
               </div>
               <span className="text-sm text-slate-500">Savings</span>
             </div>
-            <h3 className="text-3xl font-bold text-slate-800">${stats.savings.toLocaleString()}</h3>
+            <h3 className="text-3xl font-bold text-slate-800">₹{stats.savings.toLocaleString()}</h3>
             <p className="text-sm text-green-600 mt-2 flex items-center gap-1">
               <ArrowUpRight className="w-4 h-4" />
               +18.7% from last month
@@ -149,7 +155,7 @@ export default function Dashboard() {
           <div className="lg:col-span-2 bg-white rounded-xl shadow-sm p-6 border border-slate-200">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-slate-800">Recent Transactions</h2>
-              <button className="text-blue-600 hover:text-blue-700 text-sm font-medium">
+              <button className="text-blue-600 hover:text-blue-700 text-sm font-medium" onClick={()=> navigate('/allExpenses')}>
                 View All
               </button>
             </div>
@@ -169,7 +175,7 @@ export default function Dashboard() {
                       )}
                     </div>
                     <div>
-                      <p className="font-semibold text-slate-800">{transaction.item}</p>
+                      <p className="font-semibold text-slate-800">{transaction.source}</p>
                       <p className="text-sm text-slate-500">{transaction.category}</p>
                     </div>
                   </div>
@@ -179,7 +185,7 @@ export default function Dashboard() {
                       {transaction.type === 'income' ? '+' : '-'}₹{Math.abs(transaction.amount).toFixed(2)}
                     </p>
                     <p className="text-sm text-slate-500">
-                      {new Date(transaction.expense_date).toLocaleDateString("en-GB", {
+                      {new Date(transaction.income_date).toLocaleDateString("en-GB", {
                         day: "2-digit",
                         month: "short",
                         year: "numeric",
@@ -200,7 +206,7 @@ export default function Dashboard() {
                 <div key={item.category}>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium text-slate-700">{item.category}</span>
-                    <span className="text-sm font-semibold text-slate-800">${item.amount}</span>
+                    <span className="text-sm font-semibold text-slate-800">₹{item.amount}</span>
                   </div>
                   <div className="w-full bg-slate-100 rounded-full h-2">
                     <div
@@ -215,7 +221,7 @@ export default function Dashboard() {
             <div className="mt-6 pt-6 border-t border-slate-200">
               <div className="flex items-center justify-between">
                 <span className="font-semibold text-slate-700">Total Expenses</span>
-                <span className="font-bold text-slate-800">$2,650</span>
+                <span className="font-bold text-slate-800">₹2,650</span>
               </div>
             </div>
           </div>

@@ -219,7 +219,7 @@ function AddIncome() {
                 <FileText className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-400" />
                 <input
                   type="text"
-                  name="description"
+                  name="descriptions"
                   value={form.descriptions}
                   onChange={handleChange}
                   onFocus={() => setFocusedField('description')}

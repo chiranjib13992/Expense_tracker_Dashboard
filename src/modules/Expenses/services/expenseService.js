@@ -38,12 +38,32 @@ const addIncome = async (data) => {
     }
 }
 
+const allDashboardData = async () => {
+    try {
+        const res = await apiService.api.get(`${baseUrl}/expense/all-dashboard-data`);
+        return res.data;
+    } catch (err) {
+        console.log("err", err)
+    }
+}
+
+const addToSavings = async (id) => {
+    try {
+        const res = await apiService.api.post(`${baseUrl}/expense/add-to-savings`, { expenseId: id });
+        return res.data;
+    } catch (err) {
+        console.log("err", err)
+    }
+}
+
 
 const ExpenseService = {
     AddExpense,
     allExpenses,
     categoryWiseSpending,
-    addIncome
+    addIncome,
+    allDashboardData,
+    addToSavings
 }
 
 export default ExpenseService;
