@@ -10,6 +10,7 @@ export default function ExpensesRouting() {
             <Route path="/allExpenses" element={<AuthGuard><AllExpenses /></AuthGuard>} />
             <Route path="/addExpenses" element={<AuthGuard><AddExpense /></AuthGuard>} />
             <Route path="/addIncome" element={<AuthGuard><AddIncome /></AuthGuard>} />
+             <Route path="/editExpenses/:id" element={<AuthGuard><AddExpense /></AuthGuard>} />
         </>
     )
 }

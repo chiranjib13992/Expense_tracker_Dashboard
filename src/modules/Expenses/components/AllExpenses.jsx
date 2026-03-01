@@ -12,6 +12,7 @@ import {
   TrendingDown,
   X
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 
 export default function AllExpenses() {
@@ -25,6 +26,7 @@ export default function AllExpenses() {
   const [isSaved, setIsSaved] = useState(false);
   const [savingStatus, setStatus] = useState('');
   const [isError, setIsError] = useState(false);
+  const navigate = useNavigate();
 
 
   const recordsPerPage = 10;
@@ -58,6 +60,7 @@ export default function AllExpenses() {
 
   const handleEdit = (data) => {
   console.log("Edit clicked:", data);
+   navigate(`/editExpenses/${data.id}`);
   // open modal or navigate to edit page
 };
 

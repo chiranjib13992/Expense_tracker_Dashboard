@@ -56,6 +56,15 @@ const addToSavings = async (id) => {
     }
 }
 
+const getTransactionById = async (id, type) => {
+    try {
+        const res = await apiService.api.post(`${baseUrl}/expense/get-transaction`, { id, type });   
+        return res.data;
+    } catch (err) {
+        console.log("err", err)
+    }
+}
+
 
 const ExpenseService = {
     AddExpense,
@@ -63,7 +72,8 @@ const ExpenseService = {
     categoryWiseSpending,
     addIncome,
     allDashboardData,
-    addToSavings
+    addToSavings,
+    getTransactionById
 }
 
 export default ExpenseService;

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ExpenseService from "../services/expenseService";
 import {
@@ -11,8 +11,10 @@ import {
   Sparkles,
   TrendingDown
 } from "lucide-react";
+import { useParams } from "react-router-dom";
 
 function AddExpense() {
+  const { id } = useParams();
   const [form, setForm] = useState({
     item: "",
     amount: "",
@@ -25,10 +27,32 @@ function AddExpense() {
 
   const [focusedField, setFocusedField] = useState(null);
   const [submitted, setSubmitted] = useState(false);
+  let [buttonName, setButton] = useState("Save");
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
   };
+
+  const fetchExpenseById = async (expenseId) => {
+    try {
+      ExpenseService.getTransactionById(expenseId, "expenses")
+        .then((res) => {
+         setForm(res.transaction);
+         setButton("Update")
+        })
+        .catch((err) => console.log(err));
+
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+
+  useEffect(() => {
+    if (id) {
+      fetchExpenseById(id);
+    }
+  }, [id]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -137,8 +161,8 @@ function AddExpense() {
                     onFocus={() => setFocusedField('item')}
                     onBlur={() => setFocusedField(null)}
                     className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 ${focusedField === 'item'
-                        ? 'border-blue-600 shadow-lg'
-                        : 'border-slate-200 hover:border-slate-300'
+                      ? 'border-blue-600 shadow-lg'
+                      : 'border-slate-200 hover:border-slate-300'
                       }`}
                     placeholder="e.g., Lunch"
                     required
@@ -167,8 +191,8 @@ function AddExpense() {
                     onFocus={() => setFocusedField('amount')}
                     onBlur={() => setFocusedField(null)}
                     className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 ${focusedField === 'amount'
-                        ? 'border-blue-600 shadow-lg'
-                        : 'border-slate-200 hover:border-slate-300'
+                      ? 'border-blue-600 shadow-lg'
+                      : 'border-slate-200 hover:border-slate-300'
                       }`}
                     placeholder="₹ 0.00"
                     required
@@ -194,8 +218,8 @@ function AddExpense() {
                     onFocus={() => setFocusedField('date')}
                     onBlur={() => setFocusedField(null)}
                     className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 ${focusedField === 'date'
-                        ? 'border-blue-600 shadow-lg'
-                        : 'border-slate-200 hover:border-slate-300'
+                      ? 'border-blue-600 shadow-lg'
+                      : 'border-slate-200 hover:border-slate-300'
                       }`}
                     required
                   />
@@ -222,8 +246,8 @@ function AddExpense() {
                   onFocus={() => setFocusedField('purpose')}
                   onBlur={() => setFocusedField(null)}
                   className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 ${focusedField === 'purpose'
-                      ? 'border-blue-600 shadow-lg'
-                      : 'border-slate-200 hover:border-slate-300'
+                    ? 'border-blue-600 shadow-lg'
+                    : 'border-slate-200 hover:border-slate-300'
                     }`}
                   placeholder="What was this expense for?"
                   required
@@ -251,8 +275,8 @@ function AddExpense() {
                     onFocus={() => setFocusedField('payment_method')}
                     onBlur={() => setFocusedField(null)}
                     className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 appearance-none cursor-pointer ${focusedField === 'payment_method'
-                        ? 'border-blue-600 shadow-lg'
-                        : 'border-slate-200 hover:border-slate-300'
+                      ? 'border-blue-600 shadow-lg'
+                      : 'border-slate-200 hover:border-slate-300'
                       }`}
                     required
                   >
@@ -282,8 +306,8 @@ function AddExpense() {
                     onFocus={() => setFocusedField('category')}
                     onBlur={() => setFocusedField(null)}
                     className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 appearance-none cursor-pointer ${focusedField === 'category'
-                        ? 'border-blue-600 shadow-lg'
-                        : 'border-slate-200 hover:border-slate-300'
+                      ? 'border-blue-600 shadow-lg'
+                      : 'border-slate-200 hover:border-slate-300'
                       }`}
                     required
                   >
@@ -317,8 +341,8 @@ function AddExpense() {
                   onFocus={() => setFocusedField('note')}
                   onBlur={() => setFocusedField(null)}
                   className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-blue-100 resize-none ${focusedField === 'note'
-                      ? 'border-blue-600 shadow-lg'
-                      : 'border-slate-200 hover:border-slate-300'
+                    ? 'border-blue-600 shadow-lg'
+                    : 'border-slate-200 hover:border-slate-300'
                     }`}
                   rows="4"
                   placeholder="Any additional details..."
@@ -355,7 +379,7 @@ function AddExpense() {
                     className="flex items-center justify-center gap-2"
                   >
                     <Sparkles className="w-5 h-5" />
-                    Save Expense
+                    {buttonName} Expense
                   </motion.span>
                 )}
               </AnimatePresence>
