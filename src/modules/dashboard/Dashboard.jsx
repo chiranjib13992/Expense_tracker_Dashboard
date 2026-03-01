@@ -29,16 +29,25 @@ export default function Dashboard() {
       .catch((err) => console.log(err));
     ExpenseService.categoryWiseSpending()
       .then((res) => {
+        console.log(res, 'category')
         const totalSpeding = res.totalExpense;
         setCategoryExpenses(res.categoryExpenses);
         setTotalSpending(totalSpeding)
       }).catch((err) => console.log(err));
-      ExpenseService.allDashboardData()
+    ExpenseService.allDashboardData()
       .then((res) => {
-         console.log(res.dahboardData[0], 'dashboard data');
-         setDashboardData(res.dahboardData[0]);
+        console.log(res.dahboardData[0], 'dashboard data');
+        setDashboardData(res.dahboardData[0]);
       })
   }, [])
+
+  const getRandomColor = (category) => {
+    let hash = 0;
+    for (let i = 0; i < category.length; i++) {
+      hash = category.charCodeAt(i) + ((hash << 5) - hash);
+    }
+    return `hsl(${hash % 360}, 70%, 50%)`;
+  };
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100">
@@ -141,7 +150,7 @@ export default function Dashboard() {
           <div className="lg:col-span-2 bg-white rounded-xl shadow-sm p-6 border border-slate-200">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-slate-800">Recent Transactions</h2>
-              <button className="text-blue-600 hover:text-blue-700 text-sm font-medium" onClick={()=> navigate('/allExpenses')}>
+              <button className="text-blue-600 hover:text-blue-700 text-sm font-medium" onClick={() => navigate('/allExpenses')}>
                 View All
               </button>
             </div>
@@ -196,8 +205,8 @@ export default function Dashboard() {
                   </div>
                   <div className="w-full bg-slate-100 rounded-full h-2">
                     <div
-                      className={`${item.color} h-2 rounded-full transition-all`}
-                      style={{ width: `${item.percentage}%` }}
+                      className="h-2 rounded-full transition-all"
+                      style={{ width: `${Number(item.percentage)}%`, backgroundColor: getRandomColor(item.category) }}
                     ></div>
                   </div>
                   <div className="text-xs text-slate-500 mt-1">{item.percentage}% of total</div>
