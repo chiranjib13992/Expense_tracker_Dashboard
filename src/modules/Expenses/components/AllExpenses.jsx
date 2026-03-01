@@ -20,11 +20,12 @@ export default function AllExpenses() {
   const [paymentMethod, setPaymentMethod] = useState('all');
   const [currentPage, setCurrentPage] = useState(1);
   const [allExpenses, setExpenses] = useState([]);
-  const [open, setOpen] = useState(false);
+  const [openRowIndex, setOpenRowIndex] = useState(null);
   const [openRowId, setOpenRowId] = useState(null);
   const [isSaved, setIsSaved] = useState(false);
   const [savingStatus, setStatus] = useState('');
   const [isError, setIsError] = useState(false);
+
 
   const recordsPerPage = 10;
 
@@ -55,26 +56,10 @@ export default function AllExpenses() {
     setCurrentPage(1);
   };
 
-  const addToSavings = (expenseId) => {
-    // Logic to add expense to savings
-    console.log(`Expense ID ${expenseId} added to savings.`);
-    ExpenseService.addToSavings(expenseId)
-      .then((res) => {
-        if (res.success) {
-          setIsSaved(true);
-          setStatus(res.message)
-          setTimeout(() => {
-            setIsSaved(false);
-          }, 3000);
-        }
-        if (res.success === false) {
-          setIsError(true);
-          setStatus(res.message);
-        }
-      }).catch((err) => {
-        console.log(err);
-      })
-  }
+  const handleEdit = (data) => {
+  console.log("Edit clicked:", data);
+  // open modal or navigate to edit page
+};
 
   useEffect(() => {
     ExpenseService.allExpenses()
@@ -231,24 +216,23 @@ export default function AllExpenses() {
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600 relative">
                     <button
                       onClick={() =>
-                        setOpenRowId(openRowId === exp.id ? null : exp.id)
+                        setOpenRowIndex(openRowIndex === index ? null : index)
                       }
                       className="p-2 rounded-full hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-300"
-                      aria-label="More options"
                     >
                       ⋮
                     </button>
 
-                    {openRowId === exp.id && exp.type === 'income' && (
-                      <div className="absolute right-6 mt-2 w-40 bg-white border rounded-lg shadow-lg z-10">
+                    {openRowIndex === index && (
+                      <div className="absolute right-6 mt-2 w-32 bg-white border rounded-lg shadow-lg z-20">
                         <button
                           onClick={() => {
-                            setOpenRowId(null);
-                            addToSavings(exp.id);
+                            setOpenRowIndex(null);
+                            handleEdit(exp);   // Your edit function
                           }}
                           className="w-full text-left px-4 py-2 text-sm hover:bg-gray-100"
                         >
-                          Add to Savings
+                          Edit
                         </button>
                       </div>
                     )}
