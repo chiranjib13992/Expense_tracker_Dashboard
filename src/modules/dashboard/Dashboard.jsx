@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Wallet, TrendingUp, TrendingDown, DollarSign, PieChart, Calendar, ArrowUpRight, ArrowDownRight, Plus } from 'lucide-react';
+import { Wallet, TrendingUp, TrendingDown, IndianRupee, PieChart, Calendar, ArrowUpRight, ArrowDownRight, Plus } from 'lucide-react';
 
 import { useNavigate } from "react-router-dom";
 import ExpenseService from '../Expenses/services/expenseService';
@@ -91,7 +91,7 @@ export default function Dashboard() {
           <div className="bg-white rounded-xl shadow-sm p-6 border border-slate-200 hover:shadow-md transition-shadow">
             <div className="flex items-center justify-between mb-4">
               <div className="bg-blue-100 p-3 rounded-lg">
-                <DollarSign className="w-6 h-6 text-blue-600" />
+                <IndianRupee  className="w-6 h-6 text-blue-600" />
               </div>
               <span className="text-sm text-slate-500">Total Balance</span>
             </div>

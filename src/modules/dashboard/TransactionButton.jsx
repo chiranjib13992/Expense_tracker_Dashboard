@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Plus, TrendingUp, TrendingDown, X, Sparkles } from 'lucide-react';
+import { Plus, TrendingUp, TrendingDown, X, Sparkles, PiggyBank } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
 function TransactionButton() {
@@ -12,6 +12,8 @@ function TransactionButton() {
     setTimeout(() => {
       if (type === 'expense') {
         navigate('/addExpenses');
+      } else if (type === 'savings') {
+        navigate('/addSavings');
       } else {
         navigate('/addIncome');
       }
@@ -92,7 +94,7 @@ function TransactionButton() {
 
                 {/* Options */}
                 <div className="space-y-4 relative z-10">
-                  
+
                   {/* Income Option */}
                   <motion.button
                     initial={{ opacity: 0, x: -50 }}
@@ -121,7 +123,7 @@ function TransactionButton() {
                         </svg>
                       </motion.div>
                     </div>
-                    
+
                     {/* Shine effect */}
                     <motion.div
                       className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
@@ -165,6 +167,63 @@ function TransactionButton() {
                       className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
                       initial={{ x: '-100%' }}
                       whileHover={{ x: '100%' }}
+                      transition={{ duration: 0.6 }}
+                    />
+                  </motion.button>
+
+                  <motion.button
+                    initial={{ opacity: 0, x: 50 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.6 }}
+                    whileHover={{ scale: 1.03, x: 5 }}
+                    whileTap={{ scale: 0.97 }}
+                    onClick={() => handleSelection('savings')}
+                    className="w-full group relative overflow-hidden bg-gradient-to-r from-green-50 to-emerald-50 hover:from-green-100 hover:to-emerald-100 border-2 border-green-200 hover:border-green-400 rounded-xl p-6 transition-all duration-300 shadow-sm hover:shadow-lg"
+                  >
+                    <div className="flex items-center gap-4 mt-2">
+
+                      {/* Icon */}
+                      <div className="w-14 h-14 bg-green-600 rounded-xl flex items-center justify-center shadow-md group-hover:scale-110 transition-transform">
+                        <PiggyBank className="w-7 h-7 text-white" />
+                      </div>
+
+                      {/* Text */}
+                      <div className="flex-1 text-left">
+                        <h3 className="text-lg font-bold text-slate-800 mb-1">
+                          Savings
+                        </h3>
+                        <p className="text-sm text-slate-600">
+                          Add money to your savings plan
+                        </p>
+                      </div>
+
+                      {/* Arrow */}
+                      <motion.div
+                        initial={{ x: -10, opacity: 0 }}
+                        whileHover={{ x: 0, opacity: 1 }}
+                        className="text-green-600"
+                      >
+                        <svg
+                          className="w-6 h-6"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 5l7 7-7 7"
+                          />
+                        </svg>
+                      </motion.div>
+                    </div>
+
+                    {/* Shine effect */}
+                    <motion.div
+                      className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent"
+                      initial={{ x: "-100%" }}
+                      whileHover={{ x: "100%" }}
                       transition={{ duration: 0.6 }}
                     />
                   </motion.button>
