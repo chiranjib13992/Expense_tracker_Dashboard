@@ -43,7 +43,7 @@ function AddIncome() {
       ExpenseService.getTransactionById(expenseId, "income")
         .then((res) => {
           const transaction = res.transaction;
-          const formattedDate = new Date(transaction.expense_date)
+          const formattedDate = new Date(transaction.income_date)
             .toISOString()
             .split("T")[0];
           setForm({
@@ -428,7 +428,7 @@ function AddIncome() {
               </div>
               <div>
                 <p className="font-bold">Success!</p>
-                <p className="text-sm">Income {buttonName} successfully</p>
+                <p className="text-sm">Income {buttonName}d successfully</p>
               </div>
             </motion.div>
           )}
