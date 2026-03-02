@@ -11,7 +11,8 @@ import {
   Sparkles,
   TrendingDown
 } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+
 
 function AddExpense() {
   const { id } = useParams();
@@ -22,12 +23,15 @@ function AddExpense() {
     purpose: "",
     payment_method: "",
     category: "",
-    note: ""
+    note: "",
+    id: null
   });
 
   const [focusedField, setFocusedField] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   let [buttonName, setButton] = useState("Save");
+  const navigate = useNavigate();
+  
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -37,8 +41,15 @@ function AddExpense() {
     try {
       ExpenseService.getTransactionById(expenseId, "expenses")
         .then((res) => {
-         setForm(res.transaction);
-         setButton("Update")
+          const transaction = res.transaction;
+          const formattedDate = new Date(transaction.expense_date)
+            .toISOString()
+            .split("T")[0];
+          setForm({
+            ...transaction,
+            date: formattedDate,
+          });
+          setButton("Update")
         })
         .catch((err) => console.log(err));
 
@@ -57,7 +68,6 @@ function AddExpense() {
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Expense Data:", form);
-
     ExpenseService.AddExpense(form)
       .then(res => {
         console.log(res);
@@ -71,9 +81,10 @@ function AddExpense() {
             purpose: "",
             payment_method: "",
             category: "",
-            note: "",
+            note: ""
           });
         }, 2000);
+         navigate(`/addExpenses`)
       })
       .catch(err => console.log(err));
   };
@@ -415,7 +426,7 @@ function AddExpense() {
               </div>
               <div>
                 <p className="font-bold">Success!</p>
-                <p className="text-sm">Expense added successfully</p>
+                <p className="text-sm">Expense {buttonName}d successfully</p>
               </div>
             </motion.div>
           )}

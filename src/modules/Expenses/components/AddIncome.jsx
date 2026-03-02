@@ -1,22 +1,23 @@
 import React, { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import ExpenseService from "../services/expenseService";
-import { 
-  DollarSign, 
-  Calendar, 
-  Tag, 
-  Briefcase, 
-  FileText, 
+import {
+  DollarSign,
+  Calendar,
+  Tag,
+  Briefcase,
+  FileText,
   AlignLeft,
   Check,
   Sparkles,
   TrendingUp
 } from "lucide-react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+
 
 
 function AddIncome() {
-    const { id } = useParams();
+  const { id } = useParams();
   const [form, setForm] = useState({
     source: "",
     amount: "",
@@ -25,11 +26,13 @@ function AddIncome() {
     category: "",
     payment_method: "",
     note: "",
+    id: null
   });
 
   const [focusedField, setFocusedField] = useState(null);
   const [submitted, setSubmitted] = useState(false);
   let [buttonName, setButton] = useState("Save");
+  const navigate = useNavigate();
 
   const handleChange = (e) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -39,8 +42,15 @@ function AddIncome() {
     try {
       ExpenseService.getTransactionById(expenseId, "income")
         .then((res) => {
-         setForm(res.transaction);
-         setButton("Update")
+          const transaction = res.transaction;
+          const formattedDate = new Date(transaction.expense_date)
+            .toISOString()
+            .split("T")[0];
+          setForm({
+            ...transaction,
+            date: formattedDate,
+          });
+          setButton("Update")
         })
         .catch((err) => console.log(err));
 
@@ -55,11 +65,11 @@ function AddIncome() {
       fetchExpenseById(id);
     }
   }, [id]);
-  
+
   const handleSubmit = (e) => {
     e.preventDefault();
     console.log("Income Data:", form);
-    
+
     ExpenseService.addIncome(form)
       .then(res => {
         console.log(res);
@@ -74,7 +84,9 @@ function AddIncome() {
             category: "",
             payment_method: "",
             note: "",
+            id: null
           });
+          navigate('/addIncome')
         }, 2000);
       })
       .catch(err => console.log(err));
@@ -141,10 +153,10 @@ function AddIncome() {
           className="bg-white/70 backdrop-blur-xl shadow-2xl border border-white/50 rounded-3xl p-8 md:p-10"
         >
           <form onSubmit={handleSubmit} className="space-y-6">
-            
+
             {/* Row 1: Source, Amount, Date */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-              
+
               {/* Source */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
@@ -162,11 +174,10 @@ function AddIncome() {
                     onChange={handleChange}
                     onFocus={() => setFocusedField('source')}
                     onBlur={() => setFocusedField(null)}
-                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 ${
-                      focusedField === 'source' 
-                        ? 'border-green-600 shadow-lg' 
+                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 ${focusedField === 'source'
+                        ? 'border-green-600 shadow-lg'
                         : 'border-slate-200 hover:border-slate-300'
-                    }`}
+                      }`}
                     placeholder="e.g., Salary, Freelance"
                     required
                   />
@@ -182,7 +193,7 @@ function AddIncome() {
                   Amount
                 </label>
                 <div className="relative">
-<span className="absolute left-3 top-1/2 -translate-y-1/2 text-green-600 text-lg font-semibold">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-green-600 text-lg font-semibold">
                     ₹
                   </span>
                   <input
@@ -192,11 +203,10 @@ function AddIncome() {
                     onChange={handleChange}
                     onFocus={() => setFocusedField('amount')}
                     onBlur={() => setFocusedField(null)}
-                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 ${
-                      focusedField === 'amount' 
-                        ? 'border-green-600 shadow-lg' 
+                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 ${focusedField === 'amount'
+                        ? 'border-green-600 shadow-lg'
                         : 'border-slate-200 hover:border-slate-300'
-                    }`}
+                      }`}
                     placeholder="₹ 0.00"
                     required
                   />
@@ -220,11 +230,10 @@ function AddIncome() {
                     onChange={handleChange}
                     onFocus={() => setFocusedField('date')}
                     onBlur={() => setFocusedField(null)}
-                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 ${
-                      focusedField === 'date' 
-                        ? 'border-green-600 shadow-lg' 
+                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 ${focusedField === 'date'
+                        ? 'border-green-600 shadow-lg'
                         : 'border-slate-200 hover:border-slate-300'
-                    }`}
+                      }`}
                     required
                   />
                 </div>
@@ -249,11 +258,10 @@ function AddIncome() {
                   onChange={handleChange}
                   onFocus={() => setFocusedField('description')}
                   onBlur={() => setFocusedField(null)}
-                  className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 ${
-                    focusedField === 'description' 
-                      ? 'border-green-600 shadow-lg' 
+                  className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 ${focusedField === 'description'
+                      ? 'border-green-600 shadow-lg'
                       : 'border-slate-200 hover:border-slate-300'
-                  }`}
+                    }`}
                   placeholder="Brief description of income"
                   required
                 />
@@ -262,7 +270,7 @@ function AddIncome() {
 
             {/* Row 3: Category & Payment Method */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              
+
               {/* Category */}
               <motion.div
                 whileHover={{ scale: 1.02 }}
@@ -279,11 +287,10 @@ function AddIncome() {
                     onChange={handleChange}
                     onFocus={() => setFocusedField('category')}
                     onBlur={() => setFocusedField(null)}
-                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 appearance-none cursor-pointer ${
-                      focusedField === 'category' 
-                        ? 'border-green-600 shadow-lg' 
+                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 appearance-none cursor-pointer ${focusedField === 'category'
+                        ? 'border-green-600 shadow-lg'
                         : 'border-slate-200 hover:border-slate-300'
-                    }`}
+                      }`}
                     required
                   >
                     <option value="">Select Category</option>
@@ -313,11 +320,10 @@ function AddIncome() {
                     onChange={handleChange}
                     onFocus={() => setFocusedField('payment_method')}
                     onBlur={() => setFocusedField(null)}
-                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 appearance-none cursor-pointer ${
-                      focusedField === 'payment_method' 
-                        ? 'border-green-600 shadow-lg' 
+                    className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 appearance-none cursor-pointer ${focusedField === 'payment_method'
+                        ? 'border-green-600 shadow-lg'
                         : 'border-slate-200 hover:border-slate-300'
-                    }`}
+                      }`}
                     required
                   >
                     <option value="">Select Method</option>
@@ -347,11 +353,10 @@ function AddIncome() {
                   onChange={handleChange}
                   onFocus={() => setFocusedField('note')}
                   onBlur={() => setFocusedField(null)}
-                  className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 resize-none ${
-                    focusedField === 'note' 
-                      ? 'border-green-600 shadow-lg' 
+                  className={`w-full pl-11 pr-4 py-3 bg-white border-2 rounded-xl transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-green-100 resize-none ${focusedField === 'note'
+                      ? 'border-green-600 shadow-lg'
                       : 'border-slate-200 hover:border-slate-300'
-                  }`}
+                    }`}
                   rows="4"
                   placeholder="Any additional details..."
                 ></textarea>
@@ -391,15 +396,15 @@ function AddIncome() {
                   </motion.span>
                 )}
               </AnimatePresence>
-              
+
               {/* Animated background effect */}
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/20 to-white/0"
                 initial={{ x: '-100%' }}
                 animate={{ x: '100%' }}
-                transition={{ 
-                  repeat: Infinity, 
-                  duration: 2, 
+                transition={{
+                  repeat: Infinity,
+                  duration: 2,
                   ease: "linear",
                   repeatDelay: 1
                 }}
@@ -423,7 +428,7 @@ function AddIncome() {
               </div>
               <div>
                 <p className="font-bold">Success!</p>
-                <p className="text-sm">Income added successfully</p>
+                <p className="text-sm">Income {buttonName} successfully</p>
               </div>
             </motion.div>
           )}
