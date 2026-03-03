@@ -62,6 +62,14 @@ export default function Header() {
                             <span>Resources</span>
                         </div>
 
+                        <div
+                             onClick={() => navigate("/allSavings")}
+                            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all"
+                        >
+                            <BookOpen size={16} />
+                            <span>Savings</span>
+                        </div>
+
                         {/* Blog Link */}
                         <div
                              onClick={() => navigate("/blog")}
