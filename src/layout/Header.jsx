@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { getUserPayload, logout } from "./../services/global.service";
-import { ChevronDown, LayoutDashboard, Receipt, BookOpen, FileText, Wallet } from "lucide-react";
+import { ChevronDown, LayoutDashboard, Receipt, BookOpen, FileText, Wallet, Plane, PieChart , PiggyBank   } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 
 export default function Header() {
@@ -55,24 +55,32 @@ export default function Header() {
 
                         {/* Resources Link */}
                         <div
-                             onClick={() => navigate("/resources")}
+                            onClick={() => navigate("/resources")}
                             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all"
                         >
-                            <BookOpen size={16} />
-                            <span>Resources</span>
+                            <Plane  size={16} />
+                            <span>Trip Plan</span>
                         </div>
 
                         <div
-                             onClick={() => navigate("/allSavings")}
+                            onClick={() => navigate("/resources")}
                             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all"
                         >
-                            <BookOpen size={16} />
+                            <PieChart  size={16} />
+                            <span>Monthy Budget</span>
+                        </div>
+
+                        <div
+                            onClick={() => navigate("/allSavings")}
+                            className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all"
+                        >
+                            <PiggyBank  size={16} />
                             <span>Savings</span>
                         </div>
 
                         {/* Blog Link */}
                         <div
-                             onClick={() => navigate("/blog")}
+                            onClick={() => navigate("/blog")}
                             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all"
                         >
                             <FileText size={16} />

@@ -97,8 +97,7 @@ export default function Dashboard() {
             </div>
             <h3 className="text-3xl font-bold text-slate-800">₹{Number(dathbaordData.totalBalance).toLocaleString("en-IN")}</h3>
             <p className="text-sm text-green-600 mt-2 flex items-center gap-1">
-              <ArrowUpRight className="w-4 h-4" />
-              +12.5% from last month
+              
             </p>
           </div>
 
@@ -111,8 +110,7 @@ export default function Dashboard() {
             </div>
             <h3 className="text-3xl font-bold text-slate-800">₹{Number(dathbaordData.totalIncome).toLocaleString("en-IN")}</h3>
             <p className="text-sm text-green-600 mt-2 flex items-center gap-1">
-              <ArrowUpRight className="w-4 h-4" />
-              +8.2% from last month
+             
             </p>
           </div>
 
@@ -125,8 +123,7 @@ export default function Dashboard() {
             </div>
             <h3 className="text-3xl font-bold text-slate-800">₹{Number(dathbaordData.totalExpense).toLocaleString("en-IN")}</h3>
             <p className="text-sm text-red-600 mt-2 flex items-center gap-1">
-              <ArrowDownRight className="w-4 h-4" />
-              +3.1% from last month
+              
             </p>
           </div>
 
@@ -137,10 +134,8 @@ export default function Dashboard() {
               </div>
               <span className="text-sm text-slate-500">Savings</span>
             </div>
-            <h3 className="text-3xl font-bold text-slate-800">₹{stats.savings.toLocaleString()}</h3>
+            <h3 className="text-3xl font-bold text-slate-800">₹{Number(dathbaordData.totalSavings).toLocaleString("en-IN")}</h3>
             <p className="text-sm text-green-600 mt-2 flex items-center gap-1">
-              <ArrowUpRight className="w-4 h-4" />
-              +18.7% from last month
             </p>
           </div>
         </div>
