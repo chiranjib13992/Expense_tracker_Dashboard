@@ -83,6 +83,15 @@ const getAllSavings = async () => {
     }
 }
 
+const getSavingsById = async (id) => {
+    try {
+        const res = await apiService.api.get(`${baseUrl}/expense/savings/${id}`);
+        return res.data;
+    } catch (err) {
+        console.log("err", err)
+    }
+}
+
 
 const ExpenseService = {
     AddExpense,
@@ -93,7 +102,8 @@ const ExpenseService = {
     addToSavings,
     getTransactionById,
     allIncomes,
-    getAllSavings
+    getAllSavings,
+    getSavingsById
 }
 
 export default ExpenseService;

@@ -35,20 +35,20 @@ function AddSavings() {
   };
 
   // Fetch savings by id (for update)
-//   const fetchSavingsById = async (savingId) => {
-//     try {
-//       const res = await SavingsService.getSavingsById(savingId);
-//       setForm(res.saving);
-//       setButton("Update");
-//     } catch (err) {
-//       console.log(err);
-//     }
-//   };
+  const fetchSavingsById = async (savingId) => {
+    try {
+      const res = await ExpenseService.getSavingsById(savingId);
+      setForm(res.savings);
+      setButton("Update");
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
     fetchIncomes();
     if (id) {
-     // fetchSavingsById(id);
+     fetchSavingsById(id);
     }
   }, [id]);
 
