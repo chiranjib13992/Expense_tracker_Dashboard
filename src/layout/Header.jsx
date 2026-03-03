@@ -55,7 +55,7 @@ export default function Header() {
 
                         {/* Resources Link */}
                         <div
-                            onClick={() => navigate("/resources")}
+                            onClick={() => navigate("/tripPlan")}
                             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all"
                         >
                             <Plane  size={16} />
@@ -63,7 +63,7 @@ export default function Header() {
                         </div>
 
                         <div
-                            onClick={() => navigate("/resources")}
+                            onClick={() => navigate("/monthlyBudegt")}
                             className="flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-slate-900 transition-all"
                         >
                             <PieChart  size={16} />
