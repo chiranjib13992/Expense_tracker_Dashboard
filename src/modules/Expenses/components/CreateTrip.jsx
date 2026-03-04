@@ -1,0 +1,167 @@
+import React, { useState } from "react";
+import { Plus, Search, X, Users, Calendar } from "lucide-react";
+
+function CreateTrip() {
+    const [tripTitle, setTripTitle] = useState("");
+    const [startDate, setStartDate] = useState("");
+    const [tripNote, setTripNote] = useState("");
+    const [searchQuery, setSearchQuery] = useState("");
+    const [members, setMembers] = useState([]);
+    const [foundUser, setFoundUser] = useState(null);
+
+    // Dummy users (Later replace with API)
+    const allUsers = [
+        { id: 1, name: "Rahul" },
+        { id: 2, name: "Amit" },
+        { id: 3, name: "Priya" },
+        { id: 4, name: "Sneha" },
+    ];
+
+    const handleSearch = () => {
+        const user = allUsers.find((u) =>
+            u.name.toLowerCase().includes(searchQuery.toLowerCase())
+        );
+
+        if (user) {
+            setFoundUser(user);
+        } else {
+            setFoundUser(null);
+            alert("User not found");
+        }
+    };
+
+    const handleAddMember = () => {
+        if (!members.some((m) => m.id === foundUser.id)) {
+            setMembers([...members, foundUser]);
+            setFoundUser(null);
+            setSearchQuery("");
+        }
+    };
+
+    const removeMember = (id) => {
+        setMembers(members.filter((m) => m.id !== id));
+    };
+
+    return (
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6 flex justify-center">
+            <div className="bg-white shadow-2xl rounded-3xl p-8 w-full max-w-2xl">
+
+                <h2 className="text-2xl font-bold text-indigo-700 mb-6">
+                    Create New Trip
+                </h2>
+
+                {/* Trip Title */}
+                <div className="mb-5">
+                    <label className="block font-semibold mb-2">Trip Title</label>
+                    <input
+                        type="text"
+                        value={tripTitle}
+                        onChange={(e) => setTripTitle(e.target.value)}
+                        placeholder="Enter Trip Title"
+                        className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+
+                {/* Start Date */}
+                <div className="mb-5">
+                    <label className="block font-semibold mb-2">Start Date</label>
+                    <div className="relative">
+                        <Calendar className="absolute left-3 top-3 text-gray-400" size={18} />
+                        <input
+                            type="date"
+                            value={startDate}
+                            onChange={(e) => setStartDate(e.target.value)}
+                            className="w-full border border-gray-300 rounded-xl pl-10 pr-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+                </div>
+
+                {/* Search Member */}
+                <div className="mb-5">
+                    <label className="block font-semibold mb-2">Add Member</label>
+
+                    <div className="flex gap-3">
+                        <input
+                            type="text"
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            placeholder="Search member by name"
+                            className="flex-1 border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+
+                        <button
+                            type="button"
+                            onClick={handleSearch}
+                            className="btn btn-primary d-flex align-items-center gap-2 px-4 py-2"
+                        >
+                            <Search size={18} />
+                            Search
+                        </button>
+                    </div>
+                </div>
+
+                {/* Found User */}
+                {foundUser && (
+                    <div className="bg-blue-50 p-4 rounded-xl flex justify-between items-center mb-5">
+                        <div className="flex items-center gap-2">
+                            <Users size={18} />
+                            <span>{foundUser.name}</span>
+                        </div>
+
+                        <button
+                            type="button"
+                            onClick={handleAddMember}
+                            className="btn btn-primary d-flex align-items-center gap-2 px-4 py-2"
+                        >
+                            <Plus size={16} />
+                            Add
+                        </button>
+                    </div>
+                )}
+
+                {/* Added Members List */}
+                {members.length > 0 && (
+                    <div className="mb-6">
+                        <h4 className="font-semibold mb-3">Trip Members</h4>
+                        <div className="flex flex-wrap gap-3">
+                            {members.map((member) => (
+                                <div
+                                    key={member.id}
+                                    className="bg-indigo-100 text-indigo-700 px-4 py-2 rounded-full flex items-center gap-2"
+                                >
+                                    {member.name}
+                                    <X
+                                        size={16}
+                                        className="cursor-pointer"
+                                        onClick={() => removeMember(member.id)}
+                                    />
+                                </div>
+                            ))}
+                        </div>
+                    </div>
+                )}
+
+                <div className="mb-5">
+                    <label className="block font-semibold mb-2">Trip Note</label>
+                    <input
+                        type="text"
+                        value={tripNote}
+                        onChange={(e) => setTripNote(e.target.value)}
+                        placeholder="Enter Trip Note"
+                        className="w-full border border-gray-300 rounded-xl px-4 py-3 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    />
+                </div>
+
+                {/* Submit Button */}
+                 <button
+                    type="button"
+                    className="btn btn-primary d-flex align-items-center gap-2 px-4 py-2"
+                >
+                    Create Trip
+                </button>
+            </div>
+        </div>
+    );
+}
+
+export default CreateTrip;

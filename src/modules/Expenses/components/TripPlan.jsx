@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
 import { Plane, MapPin, Plus, Calendar } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+
 
 export default function TripPlan() {
     const [trips, setTrips] = useState([
@@ -23,6 +25,7 @@ export default function TripPlan() {
             date: "2026-08-01",
         },
     ]);
+    const navigate = useNavigate();
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-indigo-50 via-blue-50 to-purple-50 p-6">
@@ -39,13 +42,14 @@ export default function TripPlan() {
                 </div>
 
                 {/* Create Trip Button */}
-               <button
-  type="button"
-  className="btn btn-primary d-flex align-items-center gap-2 px-4 py-2"
->
-  <Plus size={18} />
-  Create Trip
-</button>
+                <button
+                    type="button"
+                    className="btn btn-primary d-flex align-items-center gap-2 px-4 py-2"
+                    onClick={() => navigate("/createTrip")}
+                >
+                    <Plus size={18} />
+                    Create Trip
+                </button>
             </div>
 
             {/* Horizontal Trip List */}
