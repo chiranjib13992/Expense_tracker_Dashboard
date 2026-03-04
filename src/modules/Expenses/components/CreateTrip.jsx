@@ -1,5 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Plus, Search, X, Users, Calendar } from "lucide-react";
+import TripService from "../services/tripService";
 
 function CreateTrip() {
     const [tripTitle, setTripTitle] = useState("");
@@ -9,21 +10,20 @@ function CreateTrip() {
     const [members, setMembers] = useState([]);
     const [foundUser, setFoundUser] = useState(null);
 
-    // Dummy users (Later replace with API)
-    const allUsers = [
-        { id: 1, name: "Rahul" },
-        { id: 2, name: "Amit" },
-        { id: 3, name: "Priya" },
-        { id: 4, name: "Sneha" },
-    ];
+    const fetchUser = () => {
 
-    const handleSearch = () => {
-        const user = allUsers.find((u) =>
-            u.name.toLowerCase().includes(searchQuery.toLowerCase())
-        );
+    }
 
-        if (user) {
-            setFoundUser(user);
+    useEffect(() => {
+        fetchUser();
+    }, []);
+
+    const handleSearch = async () => {
+        const res = await TripService.findProfile(searchQuery)
+
+
+        if (res) {
+            setFoundUser(res.user);
         } else {
             setFoundUser(null);
             alert("User not found");
@@ -31,16 +31,37 @@ function CreateTrip() {
     };
 
     const handleAddMember = () => {
-        if (!members.some((m) => m.id === foundUser.id)) {
+        if (!members.some((m) => m.user_id === foundUser.user_id)) {
             setMembers([...members, foundUser]);
             setFoundUser(null);
             setSearchQuery("");
+        } else if (members.some((m) => m.user_id == foundUser.user_id)) {
+            alert("Already Added Trip Member")
         }
     };
 
     const removeMember = (id) => {
         setMembers(members.filter((m) => m.id !== id));
     };
+
+    const handleSubmit = async () => {
+        const data = {
+            tripTitle,
+            note: tripNote,
+            startDate: startDate,
+            memebrs: members.map(ele => ele.user_id)
+        }
+       await TripService.createTrip(data).then(()=>
+        { 
+        setTripTitle("")
+        setMembers("")
+        setStartDate("")
+        setFoundUser("")
+        setSearchQuery("")
+        setTripNote("")
+        alert("Trip Created")
+    })
+    }
 
     return (
         <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-6 flex justify-center">
@@ -153,9 +174,10 @@ function CreateTrip() {
                 </div>
 
                 {/* Submit Button */}
-                 <button
+                <button
                     type="button"
                     className="btn btn-primary d-flex align-items-center gap-2 px-4 py-2"
+                    onClick={handleSubmit}
                 >
                     Create Trip
                 </button>
